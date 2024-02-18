@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+        
+<head>
+    <title>My Messageboard</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<body>
+    <h1>Welcome to the Ravenclaw Messageboard</h1>
+    <ul>
+        {% for message in messages %}
+            {% if message.reply_id is not defined %}
+            <li>
+                <b>{{ message.author }}:</b> {{ message.message }}
+                {% for reply in messages %}
+                  {% if reply.reply_id == message.id %}
+                    <li>
+                        <b> * {{ reply.author }}:</b> {{ reply.message }}
+                    </li>  
+                  {% endif %}
+                {% endfor %}              
+                <a href="#" onclick="showReplyForm('{{ message.id }}')">Reply</a>
+                <div id="reply{{ message.id }}" style="display: none;">
+                    <form action="/create_reply" method="post">
+                        <input type="hidden" name="message_id" value="{{ message.id }}">
+                        <label for="author">Your Name:</label>
+                        <input type="text" name="author" required>
+                        <textarea name="reply_message" required></textarea>
+                        <button type="submit">Post Reply</button>
+                    </form>
+                </div>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>  
+    <form action="/create_message" method="post">
+        <label for="author">Your Name:</label>
+        <input type="text" name="author" required>
+        <label for="message">Your Message:</label>
+        <textarea name="message" required></textarea>
+        <button type="submit">Post Message</button>
+    </form>
+    <script>
+        function showReplyForm(messageId) {
+          document.getElementById("reply" + messageId).style.display = "block";
+        }
+    </script>
+</body>
+</html>
+
+<h2>Which Hogwarts House Fits You?</h2>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          create_message
+<p>Answer honestly to find your magic match!</p>
+create_message
+<p>1. What would you do if lost in the forest? </p>
+<ul>
+  <li><input type="radio" name="q1" value="Gryffindor"> Face ]create_messagemy fears and explore!</li>
+  <li><input type="radio" name="q1" value="Ravenclaw"> Use my knowledge to find my way.</li>
+  <li><input type="radio" name="q1" value="Hufflepuff"> Help any lost creatures I meet.</li>
+  <li><input type="radio" name="q1" value="Slytherin"> Find thcreate_messagee quickest way out, using any means.</li>
+</ul>
+
+<script>
+    function showQuizQuestion() {
+      document.getElementById("reply" + messageId).style.display = "block";
+    }
+</script>
+
+<a href="#" onclick="showQuizQuestion()">Reply</a>
+<button type="submit">Reveal My House!</button>
+<h1>Welcome to the Messageboard!</h1>
+<p>You belong to the <b>{{ house }}</b> house!</p>
+<ul>
+  {% if house == "Gryffindor" %}
+    <li>Gryffindors are known for their bravery and courage. You stand up for what's right, even when it's difficult.</li>
+    <img src="/static/gryffindor.png" alt="Gryffindor emblem">
+  {% elif house == "Ravenclaw" %}
+    <li>Ravenclaws value wisdom and wit. You are quick-thinking and enjoy solving puzzles and challenges.</li>
+    <img src="/static/ravenclaw.png" alt="Ravenclaw emblem">
+  {% elif house == "Hufflepuff" %}
+    <li>Hufflepuffs are loyal and kind friends. You value fairness and hard work.</li>
+    <img src="/static/hufflepuff.png" alt="Hufflepuff emblem">
+  {% else %}
+    <li>Slytherins are ambitious and cunning. You are determined to succeed and excel.</li>
+    <img src="/static/slytherin.png" alt="Slytherin emblem">
+  {% endif %}
+</ul>
+
+
+
+
